@@ -39,14 +39,6 @@ class DocType
     private $version;
 
     /**
-     * @var Thread
-     *
-     * @ORM\OneToOne(targetEntity="App\Entity\Comment\Thread", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $thread;
-
-    /**
      * @var bool
      *
      * @ORM\Column(name="redige", type="boolean",nullable=true)

@@ -1,0 +1,33 @@
+{% extends 'Project/layout.html.twig' %}
+
+{% block title %}
+	{{ 'dashboard.cca'|trans({}, 'dashboard') }}
+	{{ parent() }}
+{% endblock %}
+
+{% block content_title %}
+	{{ 'suivi.cca_bdc_relation'|trans({}, 'project') }} {{ cca.prospect.nom }}
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link rel="stylesheet" href="{{ asset('css/datatables/dataTables.bootstrap.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/datatables/dataTables.fontAwesome.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/datatables/responsive.bootstrap.min.css') }}">
+{% endblock %}
+
+{% block breadcrumb_items %}
+	{{parent()}}
+	<li>
+		<a href="{{ path('project_cca_index') }}">{{ 'dashboard.cca'|trans({}, 'dashboard') }}</a>
+	</li>
+{% endblock %}
+
+{% block breadcrumb_active %}
+	{{ 'suivi.bon_de_commande'|trans({}, 'project') }}
+{% endblock %}
+
+
+{% block content_bundle %}
+	{% include "Project/Cca/_bdcs.html.twig" %}
+{% endblock %}
