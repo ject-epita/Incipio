@@ -10,6 +10,9 @@
 					<div>{{ 'suivi.date_fin'|trans({}, 'project') }}</div>
 				</th>
 				<th>
+					{{ 'suivi.audit'|trans({}, 'project') }}
+				</th>
+				<th>
 					<div>{{ 'suivi.client'|trans({}, 'project') }}</div>
 					<div>{{ 'suivi.suiveur'|trans({}, 'project') }}</div>
 				</th>
@@ -27,9 +30,6 @@
 				</th>
 				<th>
 					{{ 'suivi.rm'|trans({}, 'project') }}
-				</th>
-				<th>
-					{{ 'suivi.avancement'|trans({}, 'project') }}
 				</th>
 				<th>
 					{{ 'suivi.pvi'|trans({}, 'project') }}
@@ -53,13 +53,16 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% for etude in etudesEnCours | filter(etude => not confidentielRefus(etude, app.user, is_granted(role_voir_confidentiel))) %}
+			{% for etude in etudesFinies | filter(etude => not confidentielRefus(etude, app.user, is_granted(role_voir_confidentiel))) %}
 				<tr>
 					<td>
 						{% include "Project/Etude/Tools/NomEtude.html.twig" %}
 					</td>
 					<td>
 						{% include "Project/Etude/Tools/DatesEtude.html.twig" %}
+					</td>
+					<td>
+						{{ etude.getAuditTypeChoice()[etude.auditType]}}
 					</td>
 					<td>
 						{% include "Project/Etude/Buttons/Prospect.html.twig" with {'prospect': etude.prospect} %}
@@ -80,9 +83,6 @@
 					</td>
 					<td>
 						{% include "Project/Etude/Tools/EtatDocuments.html.twig" with {'docs': etude.missions, 'title': 'intervenantPrenomNom'} %}
-					</td>
-					<td>
-						{% include "Project/Etude/Tools/AffichageAvancement.html.twig" %}
 					</td>
 					<td>
 						{% include "Project/Etude/Tools/EtatDocuments.html.twig" with {'docs': etude.pvis, 'title': 'date'} %}
