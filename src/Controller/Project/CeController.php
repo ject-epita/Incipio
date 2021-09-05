@@ -28,13 +28,14 @@ class CeController extends AbstractController
 {
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
-     * @Route(name="project_ce_rediger", path="/suivi/ce/rediger/{id}", methods={"GET","HEAD","POST"})
+     * @Route(name="project_ce_rediger", path="/suivi/ce/rediger/{type}/{id}", methods={"GET","HEAD","POST"})
      *
      * @param Etude $etude etude which CE should belong to
+     * @param int $type CE or BDC
      *
      * @return RedirectResponse|Response
      */
-    public function rediger(Request $request, Etude $etude, EtudePermissionChecker $permChecker, DocTypeManager $docTypeManager)
+    public function rediger(Request $request, Etude $etude, EtudePermissionChecker $permChecker, DocTypeManager $docTypeManager, int $type)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -44,6 +45,7 @@ class CeController extends AbstractController
 
         if (!$ce = $etude->getCe()) {
             $ce = new Ce();
+            $ce->setType($type);
             $etude->setCe($ce);
         }
 
@@ -56,12 +58,20 @@ class CeController extends AbstractController
                 $docTypeManager->checkSaveNewEmploye($etude->getCe());
                 $em->flush();
 
+                $message = $type === Ce::TYPE_BDC ? 'BDC modifié' : 'CE modifiée';
+                $this->addFlash('success', $message);
+
+                if ($request->get('phases')) {
+                    return $this->redirectToRoute('project_phases_modifier', ['id' => $etude->getId()]);
+                }
+
                 return $this->redirectToRoute('project_etude_voir', ['nom' => $etude->getNom(), '_fragment' => 'tab3']);
             }
         }
 
         return $this->render('Project/Ce/rediger.html.twig', [
             'form' => $form->createView(),
+            'ce' => $ce,
             'etude' => $etude,
         ]);
     }

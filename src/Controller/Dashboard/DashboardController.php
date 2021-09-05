@@ -11,7 +11,6 @@
 
 namespace App\Controller\Dashboard;
 
-use App\Controller\Project\EtudeController;
 use App\Entity\Personne\Personne;
 use App\Entity\Personne\Prospect;
 use App\Entity\Project\Etude;
@@ -77,11 +76,15 @@ class DashboardController extends AbstractController
 
     private function updateDashboardStats(KeyValueStore $statsStore)
     {
-        $etudeRepository = $this->getDoctrine()
-            ->getRepository(Etude::class);
-        $statsStore->set('ca_negociation', $etudeRepository->getCaByState(EtudeController::STATE_ID_EN_NEGOCIATION));
-        $statsStore->set('ca_encours', $etudeRepository->getCaByState(EtudeController::STATE_ID_EN_COURS));
-        $statsStore->set('ca_cloture', $etudeRepository->getCaByState(EtudeController::STATE_ID_TERMINEE, date('Y')));
+        $etudeRepository = $this->getDoctrine()->getRepository(Etude::class);
+
+        $statsStore->set('ca_negociation', $etudeRepository->getCaByState(Etude::ETUDE_STATE_NEGOCIATION));
+
+        $statsStore->set('ca_encours', $etudeRepository->getCaByState(Etude::ETUDE_STATE_COURS));
+
+        $caCloture = $etudeRepository->getCaByState(Etude::ETUDE_STATE_FINIE)
+            + $etudeRepository->getCaByState(Etude::ETUDE_STATE_CLOTUREE);
+        $statsStore->set('ca_cloture', $caCloture);
 
         $factureRepository = $this->getDoctrine()->getRepository(Facture::class);
         $statsStore->set('ca_facture', $factureRepository->getCAFacture(date('Y')));
