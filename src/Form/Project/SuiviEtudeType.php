@@ -13,8 +13,8 @@ namespace App\Form\Project;
 
 use App\Entity\Project\Ap;
 use App\Entity\Project\Cc;
-use App\Entity\Project\Ce;
 use App\Entity\Project\Cca;
+use App\Entity\Project\Ce;
 use App\Entity\Project\Etude;
 use App\Entity\Project\ProcesVerbal;
 use Symfony\Component\Form\AbstractType;
@@ -45,7 +45,7 @@ class SuiviEtudeType extends AbstractType
                     'label' => 'suivi.avance_etude',
                     'translation_domain' => 'project',
                     'required' => false,
-                    'attr' => ['cols' => '100%', 'rows' => 5]
+                    'attr' => ['cols' => '100%', 'rows' => 5],
                 ]
             )
             ->add(
@@ -54,7 +54,7 @@ class SuiviEtudeType extends AbstractType
                 [
                     'label' => false,
                     'translation_domain' => 'project',
-                    'data_class' => Ap::class
+                    'data_class' => Ap::class,
                 ]
             )
             ->add(
@@ -63,7 +63,7 @@ class SuiviEtudeType extends AbstractType
                 [
                     'label' => false,
                     'translation_domain' => 'project',
-                    'data_class' => Cc::class
+                    'data_class' => Cc::class,
                 ]
             )
             ->add(
@@ -72,7 +72,7 @@ class SuiviEtudeType extends AbstractType
                 [
                     'label' => false,
                     'translation_domain' => 'project',
-                    'data_class' => Ce::class
+                    'data_class' => Ce::class,
                 ]
             )
             ->add(
@@ -81,7 +81,7 @@ class SuiviEtudeType extends AbstractType
                 [
                     'label' => false,
                     'translation_domain' => 'project',
-                    'data_class' => Cca::class
+                    'data_class' => Cca::class,
                 ]);
         $builder->add(
             'missions',
@@ -124,7 +124,7 @@ class SuiviEtudeType extends AbstractType
             DocTypeSuiviType::class,
             [
                 'label' => false,
-                'data_class' => ProcesVerbal::class
+                'data_class' => ProcesVerbal::class,
             ]
         );
     }

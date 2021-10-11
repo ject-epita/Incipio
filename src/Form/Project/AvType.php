@@ -44,14 +44,14 @@ class AvType extends DocTypeType
                 'multiple' => true,
                 'choices' => Av::CLAUSES_CHOICES,
             ]);
-            // ->add('phases', CollectionType::class, [
-            //     'entry_type' => PhaseType::class,
-            //     'entry_options' => ['isAvenant' => true],
-            //     'allow_add' => true,
-            //     'allow_delete' => true,
-            //     'prototype' => true,
-            //     'by_reference' => false,
-            // ]);
+        // ->add('phases', CollectionType::class, [
+        //     'entry_type' => PhaseType::class,
+        //     'entry_options' => ['isAvenant' => true],
+        //     'allow_add' => true,
+        //     'allow_delete' => true,
+        //     'prototype' => true,
+        //     'by_reference' => false,
+        // ]);
         /*->add('avenantsMissions', 'collection', array(
             'type' => new AvMissionType,
             'allow_add' => true,

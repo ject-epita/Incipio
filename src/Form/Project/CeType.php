@@ -41,7 +41,7 @@ class CeType extends AbstractType
             [
                 'label' => 'suivi.acompte',
                 'translation_domain' => 'project',
-                'required' => false
+                'required' => false,
             ])
         ->add(
             'pourcentageAcompte',
@@ -49,13 +49,13 @@ class CeType extends AbstractType
             [
                 'label' => 'suivi.pourcentage_acompte',
                 'translation_domain' => 'project',
-                'required' => false
+                'required' => false,
             ])
         ->add(
             'suiveur',
             Select2EntityType::class,
             [
-                'label' => "suivi.etude_form.suiveur",
+                'label' => 'suivi.etude_form.suiveur',
                 'translation_domain' => 'project',
                 'class' => Personne::class,
                 'choice_label' => 'prenomNom',
@@ -68,15 +68,15 @@ class CeType extends AbstractType
             'fraisDossier',
             IntegerType::class,
             [
-                'label' => "suivi.etude_form.frais_dossier",
+                'label' => 'suivi.etude_form.frais_dossier',
                 'translation_domain' => 'project',
-                'required' => false
+                'required' => false,
             ])
         ->add(
             'presentationProjet',
             TextareaType::class,
             [
-                'label' => "suivi.etude_form.presentation",
+                'label' => 'suivi.etude_form.presentation',
                 'translation_domain' => 'project',
                 'required' => false,
                 'attr' => ['cols' => '100%', 'rows' => 5],
@@ -85,11 +85,11 @@ class CeType extends AbstractType
             'descriptionPrestation',
             TextareaType::class,
             [
-                'label' => "suivi.etude_form.description_prestation",
+                'label' => 'suivi.etude_form.description_prestation',
                 'translation_domain' => 'project',
                 'required' => false,
                 'attr' => [
-                    'title' => "suivi.etude_form.description_prestation_title",
+                    'title' => 'suivi.etude_form.description_prestation_title',
                     'cols' => '100%',
                     'rows' => 5,
                 ],
@@ -99,7 +99,7 @@ class CeType extends AbstractType
             Select2EntityType::class,
             [
                 'class' => Competence::class,
-                'label' => "suivi.competences",
+                'label' => 'suivi.competences',
                 'translation_domain' => 'project',
                 'by_reference' => false,
                 'multiple' => true,

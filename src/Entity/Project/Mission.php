@@ -101,6 +101,7 @@ class Mission extends DocType
 
     /**
      * @deprecated Use phase in RepartitionJEH instead. Here for backward compatibility.
+     *
      * @var Phase
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Project\Phase", mappedBy="mission", cascade={"merge"})

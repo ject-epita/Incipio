@@ -31,7 +31,7 @@ class CeController extends AbstractController
      * @Route(name="project_ce_rediger", path="/suivi/ce/rediger/{type}/{id}", methods={"GET","HEAD","POST"})
      *
      * @param Etude $etude etude which CE should belong to
-     * @param int $type CE or BDC
+     * @param int   $type  CE or BDC
      *
      * @return RedirectResponse|Response
      */
@@ -58,7 +58,7 @@ class CeController extends AbstractController
                 $docTypeManager->checkSaveNewEmploye($etude->getCe());
                 $em->flush();
 
-                $message = $type === Ce::TYPE_BDC ? 'BDC modifié' : 'CE modifiée';
+                $message = Ce::TYPE_BDC === $type ? 'BDC modifié' : 'CE modifiée';
                 $this->addFlash('success', $message);
 
                 if ($request->get('phases')) {

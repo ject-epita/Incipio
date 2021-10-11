@@ -11,12 +11,13 @@
 
 namespace App\Controller\Project;
 
+use App\Controller\Publish\DocumentController;
 use App\Entity\Project\ClientContact;
 use App\Entity\Project\Etude;
 use App\Entity\User\User;
+use App\Form\Project\AuditEtudeType;
 use App\Form\Project\EtudeType;
 use App\Form\Project\SuiviEtudeType;
-use App\Form\Project\AuditEtudeType;
 use App\Service\Project\ChartManager;
 use App\Service\Project\EtudeManager;
 use App\Service\Project\EtudePermissionChecker;
@@ -28,12 +29,11 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Webmozart\KeyValueStore\Api\KeyValueStore;
-use App\Controller\Publish\DocumentController;
-use Symfony\Component\HttpKernel\KernelInterface;
 
 class EtudeController extends AbstractController
 {
@@ -528,15 +528,18 @@ class EtudeController extends AbstractController
             ]);
         }
 
-        if (!$ap)
+        if (!$ap) {
             $etude->setAp();
-        if (!$cc)
+        }
+        if (!$cc) {
             $etude->setCc();
-        if (!$ce)
+        }
+        if (!$ce) {
             $etude->setCe();
-        if (!$cca)
+        }
+        if (!$cca) {
             $etude->setCca();
-
+        }
 
         $em->persist($etude);
         $em->flush();
@@ -549,13 +552,10 @@ class EtudeController extends AbstractController
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
      * @Route(name="audit_modifier", path="/Project/Etude/Tabvoir/ModifierAudit/{id}", methods={"GET","HEAD","POST"})
-     *
-     *
      */
     public function auditUpdate(Request $request, Etude $etude, EtudePermissionChecker $permChecker)
     {
         $em = $this->getDoctrine()->getManager();
-
 
         if ($permChecker->confidentielRefus($etude, $this->getUser())) {
             throw new AccessDeniedException('Cette étude est confidentielle');
@@ -571,21 +571,22 @@ class EtudeController extends AbstractController
                 $em->persist($etude);
                 $em->flush();
                 $this->addFlash('success', 'Audit enregistré');
+
                 return $this->redirectToRoute('project_etude_suiviQualite', ['nom' => $etude->getNom()]);
             }
             $this->addFlash('danger', 'Le formulaire contient des erreurs.');
         }
-
 
         return $this->render(
             'Project/Etude/TabVoir/ModifierAudit.html.twig',
             [
                 // 'delete_form' => $deleteForm->createView(),
                 'etude' => $etude,
-                'formAudit' => $formAudit->createView()
+                'formAudit' => $formAudit->createView(),
             ]
         );
     }
+
     /**
      * Function to create a form to remove a formation.
      *
@@ -600,11 +601,11 @@ class EtudeController extends AbstractController
             ->getForm();
     }
 
-    private function getAdjascentKey($key, $hash = array(), $increment)
+    private function getAdjascentKey($key, $hash = [], $increment)
     {
         $keys = array_keys($hash);
         $found_index = array_search($key, $keys);
-        if ($found_index === false) {
+        if (false === $found_index) {
             return false;
         }
         $newindex = $found_index + $increment;
@@ -635,7 +636,6 @@ class EtudeController extends AbstractController
         if (!$etudes) {
             throw $this->createNotFoundException('Vous devez avoir au moins une étude en négociation, acceptée ou en cours pour accéder à cette page.');
         }
-
 
         if (!in_array($etude, $etudes)) {
             throw $this->createNotFoundException('Etude incorrecte');

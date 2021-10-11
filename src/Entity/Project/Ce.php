@@ -22,7 +22,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Ce extends DocType
 {
-
     const TYPE_CE = 0;
 
     const TYPE_BDC = 1;

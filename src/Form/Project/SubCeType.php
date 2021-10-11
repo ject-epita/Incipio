@@ -28,7 +28,7 @@ class SubCeType extends DocTypeType
             'contact',
             Select2EntityType::class,
             [
-                'label' => "suivi.etude_form.contact_secondaire",
+                'label' => 'suivi.etude_form.contact_secondaire',
                 'translation_domain' => 'project',
                 'class' => Personne::class,
                 'choice_label' => 'prenomNom',

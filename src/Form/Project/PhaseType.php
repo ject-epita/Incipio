@@ -72,7 +72,7 @@ class PhaseType extends AbstractType
                     'label' => 'Date de début',
                     'required' => false,
                     'disabled' => $readOnly,
-                    'widget' => 'single_text']
+                    'widget' => 'single_text', ]
             )
             ->add('delai', IntegerType::class, ['disabled' => $readOnly, 'label' => 'Durée en nombre de jours', 'required' => false]);
         });

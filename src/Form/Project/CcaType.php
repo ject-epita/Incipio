@@ -2,8 +2,8 @@
 
 namespace App\Form\Project;
 
-use App\Entity\Project\Cca;
 use App\Entity\Personne\Prospect;
+use App\Entity\Project\Cca;
 use App\Form\Personne\ProspectType;
 use Genemu\Bundle\FormBundle\Form\JQuery\Type\Select2EntityType;
 use Symfony\Component\Form\AbstractType;

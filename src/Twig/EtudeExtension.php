@@ -3,8 +3,8 @@
 namespace App\Twig;
 
 use App\Entity\Personne\Membre;
-use App\Entity\Project\DocType;
 use App\Entity\Project\Ce;
+use App\Entity\Project\DocType;
 use App\Entity\Project\Etude;
 use App\Entity\Project\Mission;
 use App\Entity\Project\ProcesVerbal;
@@ -73,7 +73,7 @@ class EtudeExtension extends AbstractExtension
             if (
                 null !== $etude->getCe()->getDateSignature()
                 && $etude->getCca()->getDateSignature() > $etude->getCe()->getDateSignature()
-                && $etude->getCe()->getType() === Ce::TYPE_BDC
+                && Ce::TYPE_BDC === $etude->getCe()->getType()
             ) {
                 $error = [
                     'titre' => 'CCA, BDC - Date de signature : ',
@@ -296,13 +296,14 @@ class EtudeExtension extends AbstractExtension
          * Verification des dates de debut des phases *
          **********************************************/
         $phasesErreurDate = 0; //compteur des phases avec date incorrectes
-        $doc = NULL;
+        $doc = null;
 
         // Sélection du document d'étude ─ On s'en fiche du message personnalisé
-        if ($etude->getCc())
+        if ($etude->getCc()) {
             $doc = $etude->getCc();
-        elseif ($etude->getCe())
+        } elseif ($etude->getCe()) {
             $doc = $etude->getCe();
+        }
 
         if ($doc) {
             foreach ($etude->getPhases() as $phase) {
@@ -555,7 +556,7 @@ class EtudeExtension extends AbstractExtension
     }
 
     /**
-     * Avoir une couleur affichée cohérente sur l'ensemble du site
+     * Avoir une couleur affichée cohérente sur l'ensemble du site.
      */
     public function getColor(Etude $etude)
     {
@@ -584,11 +585,10 @@ class EtudeExtension extends AbstractExtension
 
     /**
      * Avoir une couleur affichée cohérente sur l'ensemble du site
-     * Utilisé principalement dans Vu(e)CA
+     * Utilisé principalement dans Vu(e)CA.
      */
     public function getColorDoc($doc)
     {
-
         if ($doc instanceof Facture) {
             $etat = $this->getEtatFacture($doc);
         } else {

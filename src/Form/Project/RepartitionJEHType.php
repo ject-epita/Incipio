@@ -11,8 +11,8 @@
 
 namespace App\Form\Project;
 
-use App\Entity\Project\RepartitionJEH;
 use App\Entity\Project\Phase;
+use App\Entity\Project\RepartitionJEH;
 use App\Repository\Project\PhaseRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -42,7 +42,7 @@ class RepartitionJEHType extends AbstractType
                     return $pr->getByEtudeQuery($this->etude);
                 },
                 'required' => true,
-                'label' => 'Phase']
+                'label' => 'Phase', ]
                 )
             ->add('nbrJEH', NumberType::class, ['required' => true, 'label' => 'Nombre JEH'])
             ->add('prixJEH', NumberType::class, ['required' => true, 'label' => 'Prix JEH', 'attr' => ['min' => 80]]);

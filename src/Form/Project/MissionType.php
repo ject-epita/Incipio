@@ -89,7 +89,6 @@ class MissionType extends DocTypeType
         $resolver->setDefaults([
             'data_class' => Mission::class,
             'acompte' => '0',
-
         ]);
         $resolver->setRequired(['etude']);
         $resolver->addAllowedTypes('etude', Etude::class);

@@ -25,7 +25,6 @@ use Webmozart\KeyValueStore\Api\KeyValueStore;
 
 class MissionsController extends AbstractController
 {
-
     public $keyValueStore;
 
     public function __construct(KeyValueStore $keyValueStore)

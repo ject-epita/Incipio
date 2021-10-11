@@ -469,10 +469,11 @@ class Etude
      */
     public function getDateLancement()
     {
-        if ($this->ce) {// Réel
+        // Réel
+        if ($this->ce) {
             return $this->ce->getDateSignature();
         }
-        if ($this->cc) { // Réel
+        if ($this->cc) {
             return $this->cc->getDateSignature();
 
             // Théorique
