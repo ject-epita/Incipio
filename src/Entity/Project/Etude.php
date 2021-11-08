@@ -1801,30 +1801,6 @@ class Etude
         return $this;
     }
 
-    public function getPc(): ?string
-    {
-        return $this->pc;
-    }
-
-    public function setPc(?string $pc): self
-    {
-        $this->pc = $pc;
-
-        return $this;
-    }
-
-    public function getQs(): ?string
-    {
-        return $this->qs;
-    }
-
-    public function setQs(?string $qs): self
-    {
-        $this->qs = $qs;
-
-        return $this;
-    }
-
     public function getCca(): ?Cca
     {
         return $this->cca;
