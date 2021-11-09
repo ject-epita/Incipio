@@ -63,6 +63,10 @@ class TraitementController extends AbstractController
 
     const DOCTYPE_CONVENTION_ETUDIANT = 'CE';
 
+    const DOCTYPE_CONVENTION_CADRE_AGILE = 'CCA';
+
+    const DOCTYPE_BON_COMMANDE = 'BDC';
+
     const DOCTYPE_BULLETIN_ADHESION = 'BA';
 
     const DOCTYPE_ACCORD_CONFIDENTIALITE = 'AC';
