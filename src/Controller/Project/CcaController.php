@@ -14,9 +14,17 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
 
 class CcaController extends AbstractController
 {
+    protected $em;
+
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+    }
+
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
      * @Route("/suivi/cca", name="project_cca_index")
@@ -25,7 +33,7 @@ class CcaController extends AbstractController
      */
     public function index(): Response
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->em;
 
         $ccas = $em->getRepository(Cca::class)->findAll();
         // On veut récupérer leur nombre pour l'afficher entre parenthèses
@@ -83,7 +91,7 @@ class CcaController extends AbstractController
 
     private function getBdcs(Cca $cca)
     {
-        return $this->getDoctrine()->getManager()->getRepository(Ce::class)->findAllBdcByCca($cca);
+        return $this->em->getRepository(Ce::class)->findAllBdcByCca($cca);
     }
 
     /**
@@ -94,13 +102,12 @@ class CcaController extends AbstractController
      */
     public function supprimer(Cca $cca, Request $request): Response
     {
-        $form = $this->createDeleteForm($cca);
+        $em = $this->em;
 
+        $form = $this->createDeleteForm($cca);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-
             $nomProspect = $cca->getProspect()->getNom();
             $em->remove($cca);
             $em->flush($cca);
@@ -126,6 +133,8 @@ class CcaController extends AbstractController
      */
     public function add(Request $request): Response
     {
+        $em = $this->em;
+
         $cca = new Cca();
 
         // We need to have a prospect in order to include DocTypeType Form without issues so we devide the form in two pieces.
@@ -153,7 +162,6 @@ class CcaController extends AbstractController
                 $dateFinEstimee = new DateTime(date('Y-m-d', strtotime('+1 year')));
                 $cca->setDateFin($dateFinEstimee);
 
-                $em = $this->getDoctrine()->getManager();
                 $em->persist($cca);
                 $em->flush();
 
@@ -186,11 +194,10 @@ class CcaController extends AbstractController
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $cca = $form->getData();
-                $em = $this->getDoctrine()->getManager();
 
                 // Save signataire is unknown
                 $docTypeManager->checkSaveNewEmploye($cca);
-                $em->flush();
+                $this->em->flush();
 
                 return $this->redirectToRoute('project_cca_index');
             }
