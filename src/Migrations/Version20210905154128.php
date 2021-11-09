@@ -26,6 +26,17 @@ final class Version20210905154128 extends AbstractMigration
         $this->addSql('ALTER TABLE Cca ADD CONSTRAINT FK_F9F88321C71184C3 FOREIGN KEY (signataire1_id) REFERENCES Personne (id)');
         $this->addSql('ALTER TABLE Cca ADD CONSTRAINT FK_F9F88321D5A42B2D FOREIGN KEY (signataire2_id) REFERENCES Personne (id)');
         $this->addSql('ALTER TABLE Cca ADD CONSTRAINT FK_F9F88321D182060A FOREIGN KEY (prospect_id) REFERENCES Prospect (id)');
+
+        // Update all previous CE with type=TYPE_CE(=0) because none are BDC yet
+        $this->addSql('ALTER TABLE Ce ADD type SMALLINT NOT NULL');
+        $this->addSql('UPDATE Ce SET type=0 WHERE type=NULL');
+
+        // Add Cca id in Ce/Bdc
+        $this->addSql('ALTER TABLE Ce ADD cca_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE Ce ADD CONSTRAINT FK_A7559BEEFBAA5D8E FOREIGN KEY (cca_id) REFERENCES Cca (id)');
+        $this->addSql('CREATE INDEX IDX_A7559BEEFBAA5D8E ON Ce (cca_id)');
+
+        // Drop thread in DocType
         $this->addSql('ALTER TABLE Ap DROP FOREIGN KEY FK_F8BE1D87E2904019');
         $this->addSql('DROP INDEX UNIQ_F8BE1D87E2904019 ON Ap');
         $this->addSql('ALTER TABLE Ap DROP thread_id');
@@ -39,22 +50,24 @@ final class Version20210905154128 extends AbstractMigration
         $this->addSql('DROP INDEX UNIQ_4E363EDBE2904019 ON Cc');
         $this->addSql('ALTER TABLE Cc DROP thread_id');
         $this->addSql('ALTER TABLE Ce DROP FOREIGN KEY FK_A7559BEEE2904019');
+        $this->addSql('ALTER TABLE Ce DROP thread_id');
         $this->addSql('DROP INDEX UNIQ_A7559BEEE2904019 ON Ce');
-        $this->addSql('ALTER TABLE Ce ADD type SMALLINT NOT NULL, DROP thread_id');
-        // Update all previous CE with type=TYPE_CE(=0) because none are BDC yet
-        $this->addSql('UPDATE Ce SET type=0 WHERE type=NULL');
-        $this->addSql('ALTER TABLE Etude ADD cca_id INT DEFAULT NULL, ADD auditCommentaires LONGTEXT DEFAULT NULL, ADD ccaActive TINYINT(1) DEFAULT NULL');
-        $this->addSql('ALTER TABLE Etude ADD CONSTRAINT FK_DC1F8620FBAA5D8E FOREIGN KEY (cca_id) REFERENCES Cca (id) ON DELETE SET NULL');
-        $this->addSql('CREATE INDEX IDX_DC1F8620FBAA5D8E ON Etude (cca_id)');
         $this->addSql('ALTER TABLE Mission DROP FOREIGN KEY FK_5FDACBA0E2904019');
         $this->addSql('DROP INDEX UNIQ_5FDACBA0E2904019 ON Mission');
         $this->addSql('ALTER TABLE Mission DROP thread_id');
         $this->addSql('ALTER TABLE ProcesVerbal DROP FOREIGN KEY FK_D8EBE2BFE2904019');
         $this->addSql('DROP INDEX UNIQ_D8EBE2BFE2904019 ON ProcesVerbal');
         $this->addSql('ALTER TABLE ProcesVerbal DROP thread_id');
+
+        // Phase in repartition JEH
         $this->addSql('ALTER TABLE RepartitionJEH ADD phase_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE RepartitionJEH ADD CONSTRAINT FK_5E061BA899091188 FOREIGN KEY (phase_id) REFERENCES Phase (id)');
         $this->addSql('CREATE INDEX IDX_5E061BA899091188 ON RepartitionJEH (phase_id)');
+
+
+        $this->addSql('ALTER TABLE Etude ADD cca_id INT DEFAULT NULL, ADD auditCommentaires LONGTEXT DEFAULT NULL, ADD ccaActive TINYINT(1) DEFAULT NULL');
+        $this->addSql('ALTER TABLE Etude ADD CONSTRAINT FK_DC1F8620FBAA5D8E FOREIGN KEY (cca_id) REFERENCES Cca (id) ON DELETE SET NULL');
+        $this->addSql('CREATE INDEX IDX_DC1F8620FBAA5D8E ON Etude (cca_id)');
     }
 
     public function down(Schema $schema): void
@@ -90,5 +103,8 @@ final class Version20210905154128 extends AbstractMigration
         $this->addSql('ALTER TABLE RepartitionJEH DROP FOREIGN KEY FK_5E061BA899091188');
         $this->addSql('DROP INDEX IDX_5E061BA899091188 ON RepartitionJEH');
         $this->addSql('ALTER TABLE RepartitionJEH DROP phase_id');
+        $this->addSql('ALTER TABLE Ce DROP FOREIGN KEY FK_A7559BEEFBAA5D8E');
+        $this->addSql('DROP INDEX IDX_A7559BEEFBAA5D8E ON Ce');
+        $this->addSql('ALTER TABLE Ce DROP cca_id');
     }
 }

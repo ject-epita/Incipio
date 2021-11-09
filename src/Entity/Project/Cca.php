@@ -59,6 +59,11 @@ class Cca extends DocType
      */
     private $nom;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Ce::class, mappedBy="cca")
+     */
+    private $bdcs;
+
     public function __toString()
     {
         return $this->getNom() . ' - ' . $this->dateFin->format('d/m/Y');
@@ -67,6 +72,7 @@ class Cca extends DocType
     public function __construct()
     {
         $this->etudes = new ArrayCollection();
+        $this->bdcs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -156,6 +162,36 @@ class Cca extends DocType
     public function setNom(string $nom): self
     {
         $this->nom = $nom;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Ce[]
+     */
+    public function getBdcs(): Collection
+    {
+        return $this->bdcs;
+    }
+
+    public function addBdc(Ce $bdc): self
+    {
+        if (!$this->bdcs->contains($bdc)) {
+            $this->bdcs[] = $bdc;
+            $bdc->setCca($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBdc(Ce $bdc): self
+    {
+        if ($this->bdcs->removeElement($bdc)) {
+            // set the owning side to null (unless already changed)
+            if ($bdc->getCca() === $this) {
+                $bdc->setCca(null);
+            }
+        }
 
         return $this;
     }

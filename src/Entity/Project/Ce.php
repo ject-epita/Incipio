@@ -74,6 +74,11 @@ class Ce extends DocType
      */
     private $type;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Cca::class, inversedBy="bdcs")
+     */
+    private $cca;
+
     public function getTypeToString()
     {
         return $this->getType() ? 'BDC' : 'CE';
@@ -219,6 +224,18 @@ class Ce extends DocType
     public function setType(int $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getCca(): ?Cca
+    {
+        return $this->cca;
+    }
+
+    public function setCca(?Cca $cca): self
+    {
+        $this->cca = $cca;
 
         return $this;
     }
