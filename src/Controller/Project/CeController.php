@@ -46,6 +46,10 @@ class CeController extends AbstractController
         if (!$ce = $etude->getCe()) {
             $ce = new Ce();
             $ce->setType($type);
+            if ($etude->getCcaActive()) {
+                $ce->setCca($etude->getCca());
+            }
+
             $etude->setCe($ce);
         }
 
@@ -56,6 +60,7 @@ class CeController extends AbstractController
 
             if ($form->isValid()) {
                 $docTypeManager->checkSaveNewEmploye($etude->getCe());
+                $etude->getCca()->addBdc($ce);
                 $em->flush();
 
                 $message = Ce::TYPE_BDC === $type ? 'BDC modifié' : 'CE modifiée';

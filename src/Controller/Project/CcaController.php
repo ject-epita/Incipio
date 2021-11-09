@@ -36,26 +36,10 @@ class CcaController extends AbstractController
         $em = $this->em;
 
         $ccas = $em->getRepository(Cca::class)->findAll();
-        // On veut récupérer leur nombre pour l'afficher entre parenthèses
-        $bdcs = $em->getRepository(Ce::class)->findBy(['type' => Ce::TYPE_BDC]);
 
-        $nbBdc = [];
-        foreach ($ccas as $cca) {
-            $nb = 0;
-            foreach ($bdcs as $bdc) {
-                if ($bdc->getEtude()->getCca() === $cca) {
-                    ++$nb;
-                    // L'efficacité de cette méthode étant terrible (peut-être cela pouvait-il se résoudre avec de meilleures requêtes SQL...) on l'améliore un peu en réduisant la taille de l'array $bdcs
-                    $key = array_search($bdc, $bdcs);
-                    unset($bdcs[$key]);
-                }
-            }
-            $nbBdc[] = $nb;
-        }
         return $this->render('Project/Cca/index.html.twig', [
             'controller_name' => 'CcaController',
             'ccas' => $ccas,
-            'nbBdc' => $nbBdc,
         ]);
     }
 
@@ -69,7 +53,6 @@ class CcaController extends AbstractController
     {
         return $this->render('Project/Cca/voir.html.twig', [
             'controller_name' => 'CcaController',
-            'bdcs' => $this->getBdcs($cca),
             'cca' => $cca,
         ]);
     }
@@ -85,13 +68,7 @@ class CcaController extends AbstractController
         return $this->render('Project/Cca/bdcs.html.twig', [
             'controller_name' => 'CcaController',
             'cca' => $cca,
-            'bdcs' => $this->getBdcs($cca),
         ]);
-    }
-
-    private function getBdcs(Cca $cca)
-    {
-        return $this->em->getRepository(Ce::class)->findAllBdcByCca($cca);
     }
 
     /**
