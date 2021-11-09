@@ -198,6 +198,8 @@ class EtudeController extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isValid()) {
+                // A Cca comes with its own prospect so we take it
+                // Otherwise we need to set a prospect (existing or new)
                 if (!$etude->getCcaActive()) {
                     if ((!$etude->isKnownProspect() && !$etude->getNewProspect()) || ($etude->isKnownProspect() && !$etude->getProspect())) {
                         $this->addFlash('danger', 'Vous devez définir un prospect');
