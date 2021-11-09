@@ -19,7 +19,6 @@ class CcaRepository extends EntityRepository
       ->from(Cca::class, 'c')
       ->where('c.dateFin >= :now')
       ->setParameter('now', new \DateTime('now'));
-        // ->OrderBy('e.stateID');
 
         return $query;
     }
