@@ -25,20 +25,13 @@ use Webmozart\KeyValueStore\Api\KeyValueStore;
 
 class MissionsController extends AbstractController
 {
-    public $keyValueStore;
-
-    public function __construct(KeyValueStore $keyValueStore)
-    {
-        $this->keyValueStore = $keyValueStore;
-    }
-
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
      * @Route(name="project_missions_modifier", path="/suivi/missions/modifier/{id}", methods={"GET","HEAD","POST"})
      *
      * @return RedirectResponse|Response
      */
-    public function modifier(Request $request, Etude $etude, EtudePermissionChecker $permChecker)
+    public function modifier(Request $request, Etude $etude, EtudePermissionChecker $permChecker, KeyValueStore $keyValueStore)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -47,8 +40,7 @@ class MissionsController extends AbstractController
         }
 
         /* Form handling */
-
-        $pourcentageAcompte = $this->keyValueStore->get('pourcentageAcompteDefaut');
+        $pourcentageAcompte = $keyValueStore->get('pourcentageAcompteDefaut');
 
         $form = $this->createForm(MissionsType::class, $etude, ['etude' => $etude, 'acompte' => $pourcentageAcompte]);
 
