@@ -50,8 +50,8 @@ final class Version20210905154128 extends AbstractMigration
         $this->addSql('DROP INDEX UNIQ_4E363EDBE2904019 ON Cc');
         $this->addSql('ALTER TABLE Cc DROP thread_id');
         $this->addSql('ALTER TABLE Ce DROP FOREIGN KEY FK_A7559BEEE2904019');
-        $this->addSql('ALTER TABLE Ce DROP thread_id');
         $this->addSql('DROP INDEX UNIQ_A7559BEEE2904019 ON Ce');
+        $this->addSql('ALTER TABLE Ce DROP thread_id');
         $this->addSql('ALTER TABLE Mission DROP FOREIGN KEY FK_5FDACBA0E2904019');
         $this->addSql('DROP INDEX UNIQ_5FDACBA0E2904019 ON Mission');
         $this->addSql('ALTER TABLE Mission DROP thread_id');
