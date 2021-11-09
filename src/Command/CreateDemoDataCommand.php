@@ -384,7 +384,7 @@ class CreateDemoDataCommand extends Command
     {
         /** @var Etude $etude */
         foreach ($this->etudes as $key => $etude) {
-            if ($etude->getStateID() >= Etude::ETUDE_STATE_NEGOCIATION) {
+            if ($etude->getStateID() > Etude::ETUDE_STATE_NEGOCIATION) {
                 $ap = new Ap();
                 $ap->setEtude($etude);
                 $etude->setAp($ap);
