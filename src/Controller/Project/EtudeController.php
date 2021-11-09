@@ -601,6 +601,16 @@ class EtudeController extends AbstractController
             ->getForm();
     }
 
+    /**
+     * Get key+increment key from an array. Useful in Next and Previous buttons in VueCA.
+     * Example:
+     * hash =
+     * ["0" => "Dark Vador",
+     *  "2" => "Luke",
+     *  "4" => "Yoda"]
+     * getAdjascentKey(2, hash, 1) = "4"
+     * getAdjascentKey(2, hash, -1) = "0"
+     */
     private function getAdjascentKey($key, $hash = [], $increment)
     {
         $keys = array_keys($hash);
