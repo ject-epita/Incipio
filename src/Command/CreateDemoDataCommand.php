@@ -384,7 +384,7 @@ class CreateDemoDataCommand extends Command
     {
         /** @var Etude $etude */
         foreach ($this->etudes as $key => $etude) {
-            if ($etude->getStateID() > Etude::ETUDE_STATE_NEGOCIATION) {
+            if ($etude->getStateID() >= Etude::ETUDE_STATE_NEGOCIATION) {
                 $ap = new Ap();
                 $ap->setEtude($etude);
                 $etude->setAp($ap);
@@ -441,6 +441,14 @@ class CreateDemoDataCommand extends Command
                     $this->validateObject('new FA', $fa);
                     $this->em->persist($fa);
                 }
+            } else {
+                $cc = new Cc();
+                $cc->setDateSignature($etude->getDateCreation());
+                $cc->setSignataire1($this->president->getPersonne());
+                $cc->setSignataire2(null !== $emp ? $emp->getPersonne() : null);
+                $etude->setCc($cc);
+                $this->validateObject('New CC', $cc);
+                $this->em->persist($cc);
             }
         }
         $this->em->flush();
