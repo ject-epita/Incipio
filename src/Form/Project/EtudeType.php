@@ -40,7 +40,7 @@ class EtudeType extends AbstractType
                 'attr' => ['title' => 'suivi.etude_form.cca_active_tooltip'],
                 'required' => false,
                 'property_path' => 'ccaActive',
-            ])
+            ]) // Different from property name because it is not display otherwise (because of script)
             ->add('cca', Select2EntityType::class, [
                 'class' => Cca::class,
                 'label' => 'suivi.convention_cadre_agile',
