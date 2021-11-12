@@ -73,6 +73,11 @@
                 <li><a href="{{ path('project_cca_index') }}"><span class="fa fa-briefcase"></span>{{ 'dashboard.cca_voir'| trans }}</a></li>
 
                 <li class="divider"></li>
+                <li class="dropdown-header">Qualité</li>
+                <li><a href="{{ path('project_etude_suiviQualite') }}"><span
+                                class="fa fa-exclamation-triangle"></span> {{ 'dashboard.problemes_suivi'| trans }}
+                    </a></li>
+
                 {% if is_granted('ROLE_CA') %}
                     <li class="divider"></li>
                     <li class="dropdown-header">{{ 'dashboard.administration'| trans }}</li>
