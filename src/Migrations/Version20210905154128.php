@@ -65,7 +65,7 @@ final class Version20210905154128 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_5E061BA899091188 ON RepartitionJEH (phase_id)');
 
 
-        $this->addSql('ALTER TABLE Etude ADD cca_id INT DEFAULT NULL, ADD auditCommentaires LONGTEXT DEFAULT NULL, ADD ccaActive TINYINT(1) DEFAULT NULL');
+        $this->addSql('ALTER TABLE Etude ADD cca_id INT DEFAULT NULL, ADD auditCommentaire LONGTEXT DEFAULT NULL, ADD ccaActive TINYINT(1) DEFAULT NULL');
         $this->addSql('ALTER TABLE Etude ADD CONSTRAINT FK_DC1F8620FBAA5D8E FOREIGN KEY (cca_id) REFERENCES Cca (id) ON DELETE SET NULL');
         $this->addSql('CREATE INDEX IDX_DC1F8620FBAA5D8E ON Etude (cca_id)');
     }
@@ -93,7 +93,7 @@ final class Version20210905154128 extends AbstractMigration
         $this->addSql('ALTER TABLE Ce ADD CONSTRAINT FK_A7559BEEE2904019 FOREIGN KEY (thread_id) REFERENCES Thread (id)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_A7559BEEE2904019 ON Ce (thread_id)');
         $this->addSql('DROP INDEX IDX_DC1F8620FBAA5D8E ON Etude');
-        $this->addSql('ALTER TABLE Etude DROP cca_id, DROP auditCommentaires, DROP ccaActive');
+        $this->addSql('ALTER TABLE Etude DROP cca_id, DROP auditCommentaire, DROP ccaActive');
         $this->addSql('ALTER TABLE Mission ADD thread_id VARCHAR(255) CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`');
         $this->addSql('ALTER TABLE Mission ADD CONSTRAINT FK_5FDACBA0E2904019 FOREIGN KEY (thread_id) REFERENCES Thread (id)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_5FDACBA0E2904019 ON Mission (thread_id)');

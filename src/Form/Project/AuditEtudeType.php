@@ -39,8 +39,8 @@ class AuditEtudeType extends AbstractType
                 'choices' => array_flip(Etude::getAuditTypeChoice()),
                 ]
             )
-            ->add('auditCommentaires', TextareaType::class, [
-                'label' => 'Commentaires',
+            ->add('auditCommentaire', TextareaType::class, [
+                'label' => 'Commentaire',
                 'translation_domain' => 'formation',
                 'required' => false,
                 'attr' => ['cols' => '100%', 'rows' => 5], ]);

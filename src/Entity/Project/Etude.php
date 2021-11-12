@@ -130,9 +130,9 @@ class Etude
     /**
      * @var string
      *
-     * @ORM\Column(name="auditCommentaires", type="text", nullable=true)
+     * @ORM\Column(name="auditCommentaire", type="text", nullable=true)
      */
-    private $auditCommentaires;
+    private $auditCommentaire;
 
     /**
      * @var bool
@@ -1501,27 +1501,27 @@ class Etude
     }
 
     /**
-     * Set auditCommentaires.
+     * Set auditCommentaire.
      *
-     * @param string $auditCommentaires
+     * @param string $auditCommentaire
      *
      * @return Etude
      */
-    public function setAuditCommentaires($auditCommentaires)
+    public function setauditCommentaire($auditCommentaire)
     {
-        $this->auditCommentaires = $auditCommentaires;
+        $this->auditCommentaire = $auditCommentaire;
 
         return $this;
     }
 
     /**
-     * Get auditCommentaires.
+     * Get auditCommentaire.
      *
      * @return string
      */
-    public function getAuditCommentaires()
+    public function getauditCommentaire()
     {
-        return $this->auditCommentaires;
+        return $this->auditCommentaire;
     }
 
     /**
