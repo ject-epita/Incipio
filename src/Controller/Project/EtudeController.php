@@ -553,7 +553,7 @@ class EtudeController extends AbstractController
 
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
-     * @Route(name="audit_modifier", path="/Project/Etude/Tabvoir/ModifierAudit/{id}", methods={"GET","HEAD","POST"})
+     * @Route(name="project_etude_audit_update", path="/Project/Etude/Tabvoir/ModifierAudit/{id}", methods={"GET","HEAD","POST"})
      */
     public function auditUpdate(Request $request, Etude $etude, EtudePermissionChecker $permChecker)
     {
@@ -564,7 +564,6 @@ class EtudeController extends AbstractController
         }
 
         $formAudit = $this->createForm(AuditEtudeType::class, $etude);
-        // $deleteForm = $this->createDeleteFormt($etude->getId());
 
         if ('POST' == $request->getMethod()) {
             $formAudit->handleRequest($request);
@@ -582,7 +581,6 @@ class EtudeController extends AbstractController
         return $this->render(
             'Project/Etude/TabVoir/ModifierAudit.html.twig',
             [
-                // 'delete_form' => $deleteForm->createView(),
                 'etude' => $etude,
                 'formAudit' => $formAudit->createView(),
             ]

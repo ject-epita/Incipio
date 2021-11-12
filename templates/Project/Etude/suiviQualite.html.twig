@@ -136,7 +136,7 @@
 							{% include "Project/Etude/Tools/DatesEtude.html.twig" %}
 						</td>
 						<td>
-							<a href="{{ path('audit_modifier',{'id': etude.id})}} ">
+							<a href="{{ path('project_etude_audit_update',{'id': etude.id})}} ">
 								{{etude.getAuditTypeToString()| default("Non défini") }}
 							</a>
 						</td>
