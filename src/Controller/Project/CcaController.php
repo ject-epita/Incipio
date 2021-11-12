@@ -78,7 +78,7 @@ class CcaController extends AbstractController
             $em->remove($cca);
             $em->flush($cca);
 
-            $this->addFlash('success', 'Convention Cadre Agile avec ' . $nomProspect . ' bien supprimée');
+            $this->addFlash('success', 'Convention Cadre Agile avec ' . $nomProspect . ' supprimée');
         }
 
         return $this->redirectToRoute('project_cca_index');
