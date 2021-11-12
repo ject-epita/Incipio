@@ -188,28 +188,6 @@ class DocType
     }
 
     /**
-     * Set thread.
-     *
-     * @return DocType
-     */
-    public function setThread(Thread $thread)
-    {
-        $this->thread = $thread;
-
-        return $this;
-    }
-
-    /**
-     * Get thread.
-     *
-     * @return Thread
-     */
-    public function getThread()
-    {
-        return $this->thread;
-    }
-
-    /**
      * Set redige.
      *
      * @param bool $redige
