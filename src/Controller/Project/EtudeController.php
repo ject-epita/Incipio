@@ -588,20 +588,6 @@ class EtudeController extends AbstractController
     }
 
     /**
-     * Function to create a form to remove a formation.
-     *
-     * @param $id
-     *
-     * @return \Symfony\Component\Form\FormInterface
-     */
-    private function createDeleteFormt($id)
-    {
-        return $this->createFormBuilder(['id' => $id])
-            ->add('id', HiddenType::class)
-            ->getForm();
-    }
-
-    /**
      * Get key+increment key from an array. Useful in Next and Previous buttons in VueCA.
      * Example:
      * hash =
