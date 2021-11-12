@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * BdC and Ce (still named Ce for backward compatibility)
+ * BdC and Ce (named Ce for implementation reasons —almost same object, makes less duplicated code)
  * @ORM\Table()
  * @ORM\Entity
  */
