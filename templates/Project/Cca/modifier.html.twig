@@ -104,7 +104,7 @@
             {{ 'suivi.cca_enregistrer'|trans({}, 'project') }}
 		</button>
 	</div>
-{% if delete_form is defined %}
+{% if delete_form is defined and is_granted('ROLE_CA') %}
 	<div class="col-md-3 col-md-offset-3 col-xs-6">
 		<form class="bootbox-confirm inline" data-content="{{ 'suivi.cca_form.supprimer_confirm'|trans({}, 'project') }} ?" action="{{ path('project_cca_supprimer', { 'id': cca.id }) }}" method="post">
 			{{ form_widget(delete_form) }}
