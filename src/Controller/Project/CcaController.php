@@ -18,23 +18,14 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class CcaController extends AbstractController
 {
-    protected $em;
-
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
-
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
      * @Route("/suivi/cca", name="project_cca_index")
      *
      * @return RedirectResponse|Response
      */
-    public function index(): Response
+    public function index(EntityManagerInterface $em): Response
     {
-        $em = $this->em;
-
         $ccas = $em->getRepository(Cca::class)->findAll();
 
         return $this->render('Project/Cca/index.html.twig', [
@@ -77,10 +68,8 @@ class CcaController extends AbstractController
      *
      * @return RedirectResponse
      */
-    public function supprimer(Cca $cca, Request $request): Response
+    public function supprimer(Cca $cca, Request $request, EntityManagerInterface $em): Response
     {
-        $em = $this->em;
-
         $form = $this->createDeleteForm($cca);
         $form->handleRequest($request);
 
@@ -108,10 +97,8 @@ class CcaController extends AbstractController
      *
      * @return RedirectResponse|Response
      */
-    public function add(Request $request): Response
+    public function add(Request $request, EntityManagerInterface $em): Response
     {
-        $em = $this->em;
-
         $cca = new Cca();
 
         // We need to have a prospect in order to include DocTypeType Form without issues so we devide the form in two pieces.
@@ -158,7 +145,7 @@ class CcaController extends AbstractController
      *
      * @return RedirectResponse|Response
      */
-    public function modifier(Request $request, Cca $cca, DocTypeManager $docTypeManager): Response
+    public function modifier(Request $request, Cca $cca, DocTypeManager $docTypeManager, EntityManagerInterface $em): Response
     {
         if (!$cca->getVersion()) {
             $cca->setVersion(1);
@@ -174,7 +161,7 @@ class CcaController extends AbstractController
 
                 // Save signataire is unknown
                 $docTypeManager->checkSaveNewEmploye($cca);
-                $this->em->flush();
+                $em->flush();
 
                 return $this->redirectToRoute('project_cca_index');
             }
