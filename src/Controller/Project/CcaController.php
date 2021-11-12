@@ -64,7 +64,7 @@ class CcaController extends AbstractController
 
     /**
      * @Security("has_role('ROLE_CA')")
-     * @Route("/suivi/cca/delete/{id}", name="project_cca_supprimer")
+     * @Route("/suivi/cca/supprimer/{id}", name="project_cca_supprimer")
      *
      * @return RedirectResponse
      */
@@ -93,7 +93,7 @@ class CcaController extends AbstractController
 
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
-     * @Route("/suivi/cca/add", name="project_cca_ajouter")
+     * @Route("/suivi/cca/ajouter", name="project_cca_ajouter")
      *
      * @return RedirectResponse|Response
      */
@@ -128,6 +128,7 @@ class CcaController extends AbstractController
 
                 $em->persist($cca);
                 $em->flush();
+                $this->addFlash('success', 'Cca ajoutée');
 
                 return $this->redirectToRoute('project_cca_modifier', ['id' => $cca->getId()]);
             }
@@ -141,7 +142,7 @@ class CcaController extends AbstractController
 
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
-     * @Route("/suivi/cca/modify/{id}", name="project_cca_modifier")
+     * @Route("/suivi/cca/modifier/{id}", name="project_cca_modifier")
      *
      * @return RedirectResponse|Response
      */
@@ -162,6 +163,7 @@ class CcaController extends AbstractController
                 // Save signataire is unknown
                 $docTypeManager->checkSaveNewEmploye($cca);
                 $em->flush();
+                $this->addFlash('success', 'Cca modifiée');
 
                 return $this->redirectToRoute('project_cca_index');
             }
