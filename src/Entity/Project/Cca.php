@@ -95,7 +95,7 @@ class Cca extends DocType
     /**
      * @return Collection|Etude[]
      */
-    public function getEtude(): Collection
+    public function getEtudes(): Collection
     {
         return $this->etudes;
     }
