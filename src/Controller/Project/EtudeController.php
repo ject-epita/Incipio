@@ -15,7 +15,6 @@ use App\Controller\Publish\DocumentController;
 use App\Entity\Project\ClientContact;
 use App\Entity\Project\Etude;
 use App\Entity\User\User;
-use App\Form\Project\AuditEtudeType;
 use App\Form\Project\EtudeType;
 use App\Form\Project\SuiviEtudeType;
 use App\Service\Project\ChartManager;
@@ -549,42 +548,6 @@ class EtudeController extends AbstractController
         return new JsonResponse([
             'responseCode' => Response::HTTP_OK, 'msg' => 'ok',
         ]); //make sure it has the correct content type
-    }
-
-    /**
-     * @Security("has_role('ROLE_SUIVEUR')")
-     * @Route(name="project_etude_audit_update", path="/Project/Etude/Tabvoir/ModifierAudit/{id}", methods={"GET","HEAD","POST"})
-     */
-    public function auditUpdate(Request $request, Etude $etude, EtudePermissionChecker $permChecker)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        if ($permChecker->confidentielRefus($etude, $this->getUser())) {
-            throw new AccessDeniedException('Cette étude est confidentielle');
-        }
-
-        $formAudit = $this->createForm(AuditEtudeType::class, $etude);
-
-        if ('POST' == $request->getMethod()) {
-            $formAudit->handleRequest($request);
-
-            if ($formAudit->isValid()) {
-                $em->persist($etude);
-                $em->flush();
-                $this->addFlash('success', 'Audit enregistré');
-
-                return $this->redirectToRoute('project_etude_suiviQualite', ['nom' => $etude->getNom()]);
-            }
-            $this->addFlash('danger', 'Le formulaire contient des erreurs.');
-        }
-
-        return $this->render(
-            'Project/Etude/TabVoir/ModifierAudit.html.twig',
-            [
-                'etude' => $etude,
-                'formAudit' => $formAudit->createView(),
-            ]
-        );
     }
 
     /**
