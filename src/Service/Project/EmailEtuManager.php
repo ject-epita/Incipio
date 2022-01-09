@@ -3,7 +3,7 @@
 namespace App\Service\Project;
 
 use App\Entity\Personne\Membre;
-use Webmozart\KeyValueStore\Api\KeyValueStore;
+use App\Service\KeyValueStore\Api\KeyValueStore;
 
 class EmailEtuManager
 {

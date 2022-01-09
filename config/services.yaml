@@ -40,11 +40,11 @@ services:
 # Services definition & alias
     FOS\UserBundle\Mailer\MailerInterface: "@fos_user.mailer.twig_swift"
     app.json_key_value_store:
-        class:        Webmozart\KeyValueStore\JsonFileStore
+        class:        App\Service\KeyValueStore\JsonFileStore
         arguments:    ["%app.json_key_value_store.path%"]
 
     app.json_stats:
-        class:        Webmozart\KeyValueStore\JsonFileStore
+        class:        App\Service\KeyValueStore\JsonFileStore
         arguments:    ["%app.json_stats.path%"]
 
     App\Twig\UtilitiesExtension:

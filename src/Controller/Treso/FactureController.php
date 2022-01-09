@@ -17,6 +17,7 @@ use App\Entity\Treso\Compte;
 use App\Entity\Treso\Facture;
 use App\Entity\Treso\FactureDetail;
 use App\Form\Treso\FactureType;
+use App\Service\KeyValueStore\Api\KeyValueStore;
 use App\Service\Publish\ConversionLettreFormatter;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -27,7 +28,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Webmozart\KeyValueStore\Api\KeyValueStore;
 
 class FactureController extends AbstractController
 {

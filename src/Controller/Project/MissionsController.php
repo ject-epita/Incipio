@@ -13,6 +13,7 @@ namespace App\Controller\Project;
 
 use App\Entity\Project\Etude;
 use App\Form\Project\MissionsType;
+use App\Service\KeyValueStore\Api\KeyValueStore;
 use App\Service\Project\EtudePermissionChecker;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,7 +22,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Webmozart\KeyValueStore\Api\KeyValueStore;
 
 class MissionsController extends AbstractController
 {

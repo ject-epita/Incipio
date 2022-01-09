@@ -21,6 +21,7 @@ use App\Entity\Treso\BV;
 use App\Entity\Treso\Facture;
 use App\Entity\Treso\NoteDeFrais;
 use App\Form\Publish\DocTypeType;
+use App\Service\KeyValueStore\Api\KeyValueStore;
 use App\Service\Project\ChartManager;
 use App\Service\Project\EtudePermissionChecker;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -33,7 +34,6 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Twig\Environment;
-use Webmozart\KeyValueStore\Api\KeyValueStore;
 
 class TraitementController extends AbstractController
 {

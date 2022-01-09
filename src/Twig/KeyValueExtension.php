@@ -2,9 +2,9 @@
 
 namespace App\Twig;
 
+use App\Service\KeyValueStore\Api\KeyValueStore;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
-use Webmozart\KeyValueStore\Api\KeyValueStore;
 
 class KeyValueExtension extends AbstractExtension
 {

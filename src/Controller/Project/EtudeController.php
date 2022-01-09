@@ -17,6 +17,7 @@ use App\Entity\Project\Etude;
 use App\Entity\User\User;
 use App\Form\Project\EtudeType;
 use App\Form\Project\SuiviEtudeType;
+use App\Service\KeyValueStore\Api\KeyValueStore;
 use App\Service\Project\ChartManager;
 use App\Service\Project\EtudeManager;
 use App\Service\Project\EtudePermissionChecker;
@@ -32,7 +33,6 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Webmozart\KeyValueStore\Api\KeyValueStore;
 
 class EtudeController extends AbstractController
 {

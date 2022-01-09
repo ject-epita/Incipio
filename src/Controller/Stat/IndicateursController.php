@@ -21,6 +21,7 @@ use App\Entity\Project\Etude;
 use App\Entity\Project\Mission;
 use App\Entity\Treso\BV;
 use App\Entity\Treso\NoteDeFrais;
+use App\Service\KeyValueStore\Api\KeyValueStore;
 use App\Service\Project\EtudeManager;
 use App\Service\Stat\ChartFactory;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -30,7 +31,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Webmozart\KeyValueStore\Api\KeyValueStore;
 
 class IndicateursController extends AbstractController
 {
