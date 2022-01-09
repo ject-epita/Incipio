@@ -17,7 +17,6 @@ use App\Entity\Project\Cca;
 use App\Entity\Project\Ce;
 use App\Entity\Project\Etude;
 use App\Entity\Project\ProcesVerbal;
-use Genemu\Bundle\FormBundle\Form\JQuery\Type\DateType as GenemuDateType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -75,7 +74,7 @@ class SuiviEtudeType extends AbstractType
             ]
         );
         $builder->add('pvr', DocTypeSuiviType::class, [
-            'data_class' => ProcesVerbal::class
+            'data_class' => ProcesVerbal::class,
         ]);
     }
 

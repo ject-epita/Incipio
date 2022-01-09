@@ -64,7 +64,6 @@ final class Version20210905154128 extends AbstractMigration
         $this->addSql('ALTER TABLE RepartitionJEH ADD CONSTRAINT FK_5E061BA899091188 FOREIGN KEY (phase_id) REFERENCES Phase (id)');
         $this->addSql('CREATE INDEX IDX_5E061BA899091188 ON RepartitionJEH (phase_id)');
 
-
         $this->addSql('ALTER TABLE Etude ADD cca_id INT DEFAULT NULL, ADD auditCommentaire LONGTEXT DEFAULT NULL, ADD ccaActive TINYINT(1) DEFAULT NULL');
         $this->addSql('ALTER TABLE Etude ADD CONSTRAINT FK_DC1F8620FBAA5D8E FOREIGN KEY (cca_id) REFERENCES Cca (id) ON DELETE SET NULL');
         $this->addSql('CREATE INDEX IDX_DC1F8620FBAA5D8E ON Etude (cca_id)');

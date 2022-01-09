@@ -31,7 +31,7 @@ class CeController extends AbstractController
      * @Route(name="project_ce_rediger", path="/suivi/ce/rediger/{type}/{id}", methods={"GET","HEAD","POST"})
      *
      * @param Etude $etude etude which CE should belong to
-     * @param int   $type integer representing the type of document to edit. 0 for CE, 1 for BDC. Using such trick because CE & BDC are different documents but implemented by same entity because of similarities.
+     * @param int   $type  integer representing the type of document to edit. 0 for CE, 1 for BDC. Using such trick because CE & BDC are different documents but implemented by same entity because of similarities.
      *
      * @return RedirectResponse|Response
      */

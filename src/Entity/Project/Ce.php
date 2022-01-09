@@ -16,7 +16,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * BdC and Ce (named Ce for implementation reasons —almost same object, makes less duplicated code)
+ * BdC and Ce (named Ce for implementation reasons —almost same object, makes less duplicated code).
+ *
  * @ORM\Table()
  * @ORM\Entity
  */
@@ -86,7 +87,6 @@ class Ce extends DocType
 
     public function getReference()
     {
-
         return $this->etude->getReference() . '/' . (null !== $this->getDateSignature() ? $this->getDateSignature()
             ->format('Y') : '') . '/' . $this->getTypeToString() . '/' . $this->getVersion();
     }

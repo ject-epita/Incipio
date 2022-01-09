@@ -11,7 +11,6 @@
 
 namespace App\Entity\Project;
 
-use App\Entity\Comment\Thread;
 use App\Entity\Personne\Personne;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;

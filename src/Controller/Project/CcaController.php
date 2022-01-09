@@ -3,18 +3,17 @@
 namespace App\Controller\Project;
 
 use App\Entity\Project\Cca;
-use App\Entity\Project\Ce;
 use App\Form\Project\CcaType;
 use App\Form\Project\SubCcaType;
 use App\Service\Project\DocTypeManager;
 use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\ORM\EntityManagerInterface;
 
 class CcaController extends AbstractController
 {

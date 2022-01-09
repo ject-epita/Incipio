@@ -558,7 +558,7 @@ class EtudeController extends AbstractController
      *  "2" => "Luke",
      *  "4" => "Yoda"]
      * getAdjascentKey(2, hash, 1) = "4"
-     * getAdjascentKey(2, hash, -1) = "0"
+     * getAdjascentKey(2, hash, -1) = "0".
      */
     private function getAdjascentKey($key, $hash = [], $increment)
     {
