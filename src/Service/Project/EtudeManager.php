@@ -13,8 +13,8 @@ namespace App\Service\Project;
 
 use App\Entity\Project\Ce;
 use App\Entity\Project\Etude;
+use App\Service\KeyValueStore\Api\KeyValueStore;
 use Doctrine\Common\Persistence\ObjectManager;
-use Webmozart\KeyValueStore\Api\KeyValueStore;
 
 class EtudeManager
 {

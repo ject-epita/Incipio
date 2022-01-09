@@ -31,15 +31,17 @@
         "symfony/yaml": "4.4.*",
         "tattali/calendar-bundle": "^1.2",
         "twig/extra-bundle": "^3.3",
-        "twig/intl-extra": "^3.3",
-        "webmozart/json": "dev-master",
-        "webmozart/key-value-store": "^1.0"
+        "twig/intl-extra": "^3.3"
     },
     "config": {
         "preferred-install": {
             "*": "dist"
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "symfony/flex": true
+        }
     },
     "autoload": {
         "psr-4": {

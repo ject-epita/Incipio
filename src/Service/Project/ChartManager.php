@@ -15,12 +15,12 @@ use App\Entity\Project\ClientContact;
 use App\Entity\Project\Etude;
 use App\Entity\Project\Phase;
 use App\Entity\Publish\Document;
+use App\Service\KeyValueStore\Api\KeyValueStore;
 use Doctrine\Common\Persistence\ObjectManager;
+use Laminas\Json\Expr;
 use Ob\HighchartsBundle\Highcharts\Highchart;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Webmozart\KeyValueStore\Api\KeyValueStore;
-use Zend\Json\Expr;
 
 class ChartManager /*extends \Twig_Extension*/
 {
