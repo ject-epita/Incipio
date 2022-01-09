@@ -13,10 +13,10 @@ namespace App\Form\Project;
 
 use App\Entity\Project\Ap;
 use App\Entity\Project\Cc;
+use App\Entity\Project\Cca;
 use App\Entity\Project\Ce;
 use App\Entity\Project\Etude;
 use App\Entity\Project\ProcesVerbal;
-use Genemu\Bundle\FormBundle\Form\JQuery\Type\DateType as GenemuDateType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -31,33 +31,21 @@ class SuiviEtudeType extends AbstractType
         $builder->add(
             'stateID',
             ChoiceType::class,
-            ['choices' => array_flip(Etude::ETUDE_STATE_ARRAY),
-             'translation_domain' => 'project',
-             'label' => 'Etat de l\'Étude',
-             'required' => true,
+            [
+                'choices' => array_flip(Etude::ETUDE_STATE_ARRAY),
+                'translation_domain' => 'project',
+                'required' => true,
             ]
         )
             ->add(
-                'auditDate',
-                GenemuDateType::class,
-                ['label' => 'Audité le', 'format' => 'd/MM/y', 'required' => false, 'widget' => 'single_text']
-            )
-            ->add(
-                'auditType',
-                AuditType::class,
-                ['label' => 'Type d\'audit', 'required' => false, 'choice_label' => function ($var) {
-                    return $var;
-                },
-                ]
-            )
-            ->add(
                 'stateDescription',
                 TextareaType::class,
-                ['label' => 'suivi.problemes', 'translation_domain' => 'project', 'required' => false, 'attr' => ['cols' => '100%', 'rows' => 5]]
+                ['label' => 'suivi.avance_etude', 'translation_domain' => 'project', 'required' => false, 'attr' => ['cols' => '100%', 'rows' => 5]]
             )
-            ->add('ap', DocTypeSuiviType::class, ['label' => 'Avant-Projet', 'data_class' => Ap::class])
-            ->add('cc', DocTypeSuiviType::class, ['label' => 'Convention Client', 'data_class' => Cc::class])
-            ->add('ce', DocTypeSuiviType::class, ['label' => 'Convention Etude', 'data_class' => Ce::class]);
+            ->add('ap', DocTypeSuiviType::class, ['data_class' => Ap::class])
+            ->add('cc', DocTypeSuiviType::class, ['data_class' => Cc::class])
+            ->add('ce', DocTypeSuiviType::class, ['data_class' => Ce::class])
+            ->add('cca', DocTypeSuiviType::class, ['data_class' => Cca::class]);
 
         $builder->add('missions', CollectionType::class, [
             'entry_type' => DocTypeSuiviType::class,
@@ -85,7 +73,9 @@ class SuiviEtudeType extends AbstractType
                 'by_reference' => false, //indispensable cf doc
             ]
         );
-        $builder->add('pvr', DocTypeSuiviType::class, ['label' => 'PVRF', 'data_class' => ProcesVerbal::class]);
+        $builder->add('pvr', DocTypeSuiviType::class, [
+            'data_class' => ProcesVerbal::class,
+        ]);
     }
 
     public function getBlockPrefix()

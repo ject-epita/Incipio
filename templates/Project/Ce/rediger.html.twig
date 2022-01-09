@@ -159,9 +159,11 @@
     </table>
     {{ form_widget(form) }}
 
-    <input type="submit" value="{{ 'suivi.ce_enregistrer'|trans({}, 'project') }}" class="btn btn-success"/>
-    <input type="submit" value="{{ 'suivi.ce_enregistrer_phases_passer'|trans({}, 'project') }}" name="phases"
-           class="btn btn-success"/>
+{% set valueSubmitSimple = ce.type == constant('\\App\\Entity\\Project\\Ce::TYPE_BDC') ? 'suivi.bdc_enregistrer'|trans({}, 'project') : 'suivi.ce_enregistrer'|trans({}, 'project') %}
+{% set valueSubmitPhases = ce.type == constant('\\App\\Entity\\Project\\Ce::TYPE_BDC') ? 'suivi.bdc_enregistrer_phases_passer'|trans({}, 'project') : 'suivi.ce_enregistrer_phases_passer'|trans({}, 'project') %}
+
+<input type="submit" value="{{ valueSubmitSimple }}" class="btn btn-success"/>
+<input type="submit" value="{{ valueSubmitPhases }}" name="phases" class="btn btn-success"/>
     {{ form_end(form) }}
 
 {% endblock %}

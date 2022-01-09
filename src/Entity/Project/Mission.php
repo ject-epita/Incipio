@@ -100,6 +100,8 @@ class Mission extends DocType
     private $repartitionsJEH;
 
     /**
+     * @deprecated Use phase in RepartitionJEH instead. Here for backward compatibility.
+     *
      * @var Phase
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Project\Phase", mappedBy="mission", cascade={"merge"})
@@ -140,7 +142,7 @@ class Mission extends DocType
     public function getReference()
     {
         return $this->getEtude()->getReference('nom') . '/' . (!empty($this->getDebutOm()) ? $this->getDebutOm()
-                ->format('Y') : 'XX') .
+            ->format('Y') : 'XX') .
             '/RM/' . $this->getVersion();
     }
 
@@ -148,7 +150,6 @@ class Mission extends DocType
     {
         parent::__construct();
         $this->repartitionsJEH = new ArrayCollection();
-        $this->phases = new ArrayCollection();
         $this->pourcentageJunior = 0.4;
     }
 
@@ -515,6 +516,7 @@ class Mission extends DocType
     }
 
     /**
+     * @deprecated Use phase in RepartitionJEH instead. Here for backward compatibility.
      * Add phase.
      *
      * @return Mission
@@ -528,6 +530,7 @@ class Mission extends DocType
     }
 
     /**
+     * @deprecated Use phase in RepartitionJEH instead. Here for backward compatibility.
      * Remove phase.
      */
     public function removePhase(Phase $phase)
@@ -537,6 +540,7 @@ class Mission extends DocType
     }
 
     /**
+     * @deprecated Use phase in RepartitionJEH instead. Here for backward compatibility.
      * Get phases.
      *
      * @return \Doctrine\Common\Collections\Collection

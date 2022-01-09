@@ -67,7 +67,7 @@ class EtudeRepository extends EntityRepository
             ->from(Etude::class, 'e')
             ->leftJoin('e.competences', 'c')
             ->addSelect('c')
-            ->leftJoin('e.phases', 'p')->addSelect('p')//cette requete n'est utilisée que sur la page RH
+            ->leftJoin('e.phases', 'p')->addSelect('p') //cette requete n'est utilisée que sur la page RH
             // du bundle N7Consulting. Comme elle affiche le nombre de JEH, ajout d'une jointure sur les phases pour
             // éviter de faire une requete sur les phases a chaque étude.
             ->leftJoin('e.cc', 'cc')->addSelect('cc')
@@ -112,15 +112,11 @@ class EtudeRepository extends EntityRepository
             ->leftJoin('e.cc', 'cc')
             ->addSelect('cc')
             ->leftJoin('e.clientContacts', 'clientContacts')
-            ->addSelect('clientContacts')//on laisse le champ faitPar d'un contact client en asynchrone, car ça ne devrait pas trop diverger, et que ça rajoute beaucoup d'informations dans la requete pour pas grand chose en termes de fonctionnalités.
+            ->addSelect('clientContacts') //on laisse le champ faitPar d'un contact client en asynchrone, car ça ne devrait pas trop diverger, et que ça rajoute beaucoup d'informations dans la requete pour pas grand chose en termes de fonctionnalités.
             ->leftJoin('e.prospect', 'prospect')
             ->addSelect('prospect')
             ->leftJoin('e.phases', 'phases')
             ->addSelect('phases')
-//            ->leftJoin('e.procesVerbaux', 'procesVerbaux')
-//            ->addSelect('procesVerbaux')
-//            ->leftJoin('e.factures', 'factures')
-//            ->addSelect('factures')
             ->leftJoin('e.suiveur', 'suiveur')
             ->addSelect('suiveur')
             ->leftJoin('e.suiveurQualite', 'suiveurQualite')
@@ -136,26 +132,19 @@ class EtudeRepository extends EntityRepository
     }
 
     /**
-     * Get all project according to their state. Mainly used in VuCA to display negociate and current project.
+     * Fetch negociate, accepted and current projects.
      *
-     * @param array      $states 2 states whom you want all projects in that states
-     * @param array|null $orders how should project be ordered
-     *
-     * @return array of projects
+     * @return array of projects ordered by state
      */
-    public function getTwoStates(array $states = [1, 2], array $orders = null)
+    public function findBeginningProjects()
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->select('e')
             ->from(Etude::class, 'e')
             ->where('e.stateID = :stateNegociate or e.stateID= :stateCurrent')
-            ->setParameter('stateNegociate', $states[0])
-            ->setParameter('stateCurrent', $states[1]);
-        if (null !== $orders) {
-            foreach ($orders as $column => $value) {
-                $qb->orderBy('e.' . $column, $value);
-            }
-        }
+            ->setParameter('stateNegociate', Etude::ETUDE_STATE_NEGOCIATION)
+            ->setParameter('stateCurrent', Etude::ETUDE_STATE_COURS)
+            ->OrderBy('e.stateID');
         $query = $qb->getQuery();
 
         return $query->getResult();

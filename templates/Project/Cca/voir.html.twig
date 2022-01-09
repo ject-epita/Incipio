@@ -1,0 +1,97 @@
+{% extends 'Project/layout.html.twig' %}
+
+{% block title %}
+	{{ cca.nom }}
+	{{ parent() }}
+{% endblock %}
+
+{% block content_title %}
+	{{ cca.nom }}
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link rel="stylesheet" href="{{ asset('css/datatables/dataTables.bootstrap.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/datatables/dataTables.fontAwesome.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/datatables/responsive.bootstrap.min.css') }}">
+{% endblock %}
+
+{% block breadcrumb_active %}
+	{{ cca.nom }}
+{% endblock %}
+
+{% block breadcrumb_items %}
+	{{parent()}}
+	<li>
+		<a href="{{ path('project_cca_index') }}">{{ 'dashboard.cca'|trans({}, 'dashboard') }}</a>
+	</li>
+{% endblock %}
+
+{% block content_bundle %}
+	{% set echeance = date(cca.dateFin).diff(date("now")) %}
+
+	<table class="display dataTable table table-bordered table-striped dt-responsive">
+		<tr>
+			<th>
+				{{ 'suivi.version'|trans({}, 'project') }}
+			</th>
+			<td>
+				{{ cca.version ? cca.version : '/' }}
+			</td>
+		</tr>
+		<tr>
+			<th>
+				{{ 'suivi.cca_nom'|trans({}, 'project') }}
+			</th>
+			<td>
+				{{ cca.nom }}
+			</td>
+		</tr>
+		<tr>
+			<th>
+				{{ 'suivi.prospect'|trans({}, 'project') }}
+			</th>
+			<td>
+				{{ cca.prospect.nom }}
+			</td>
+		</tr>
+		<tr>
+			<th>
+				{{ 'suivi.doc_type_form.signataire_junior'|trans({}, 'project') }}
+			</th>
+			<td>
+				{{ cca.signataire1 ? cca.signataire1.prenomNom : '/' }}
+			</td>
+		</tr>
+		<tr>
+			<th>
+				{{ 'suivi.signataire_client'|trans({}, 'project') }}
+			</th>
+			<td>
+				{{ cca.signataire2 ? cca.signataire2.prenomNom : '/' }}
+			</td>
+		</tr>
+		<tr>
+			<th>
+				{{ 'suivi.date_signature' | trans({}, 'project') }}
+			</th>
+			<td>
+				{{ cca.dateSignature | date('d/m/Y')}}
+			</td>
+		</tr>
+		<tr class="{{ not echeance.invert ? "danger" : echeance.y == 0 and echeance.m  < 1 ? "warning" }}">
+			<th>
+				{{ 'suivi.date_fin' | trans({}, 'project') }}
+			</th>
+			<td>
+				{{ cca.dateFin | date('d/m/Y')}}
+			</td>
+		</tr>
+	</table>
+
+	{% include "Project/Cca/_bdcs.html.twig" %}
+{% endblock %}
+
+{% block javascript %}
+	{{ parent() }}
+{% endblock %}

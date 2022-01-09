@@ -6,11 +6,11 @@
 </style>
 
 {# SET ACTIVE PANELS #}
-{% set activeAP = (( etude.ap and etude.ap.dateSignature and etude.ap.redige and etude.ap.relu and etude.ap.spt1 and etude.ap.spt2 and etude.ap.envoye and etude.ap.receptionne ) ? "" : "in") %}
-{% set activeCC = (( etude.cc and etude.cc.dateSignature and etude.cc.redige and etude.cc.relu and etude.cc.spt1 and etude.cc.spt2 and etude.cc.envoye and etude.cc.receptionne ) ? "" : "in") %}
-{% set activeCE = (( etude.ce and etude.ce.dateSignature and etude.ce.redige and etude.ce.relu and etude.ce.spt1 and etude.ce.spt2 and etude.ce.envoye and etude.ce.receptionne ) ? "" : "in") %}
-{% set activeRM = (( activeAP or activeCC ) ? "in" : "") %}
-{% set activeFA = (( activeAP and activeCC ) ? "in" : "") %}
+{% set activeAP = (( etude.ap and etude.ap.dateSignature and etude.ap.redige and etude.ap.relu and etude.ap.spt1 and etude.ap.spt2 and etude.ap.envoye and etude.ap.receptionne) ? "" : "in") %}
+{% set activeCC = (( etude.cc and etude.cc.dateSignature and etude.cc.redige and etude.cc.relu and etude.cc.spt1 and etude.cc.spt2 and etude.cc.envoye and etude.cc.receptionne) ? "" : "in") %}
+{% set activeCE = (( etude.ce and etude.ce.dateSignature and etude.ce.redige and etude.ce.relu and etude.ce.spt1 and etude.ce.spt2 and etude.ce.envoye and etude.ce.receptionne) ? "" : "in") %}
+{% set activeRM = (( activeAP or activeCC) ? "in" : "") %}
+{% set activeFA = (( activeAP and activeCC) ? "in" : "") %}
 
 {% if (not etude.ceActive) or etude.ap is not none %}
 <nav class="navbar" role="navigation">
@@ -21,7 +21,7 @@
         </button>
         <span class="navbar-brand titre" data-toggle="collapse" data-target="#ap">
             <span class="fa fa-chevron-down"></span> {{ 'suivi.avant_projet'|trans({}, 'project') }}
-            - v{{ etude.ap.version | default('') }}
+            {{ etude.ap.version | default('') }}
         </span>
     </div>
     <div class="collapse navbar-collapse navbar-ap">
@@ -83,7 +83,7 @@
         </button>
         <span class="navbar-brand titre" data-toggle="collapse" data-target="#cc"><span
                     class="fa fa-chevron-down"></span> {{ 'suivi.convention_client'|trans({}, 'project') }}
-            - v{{ etude.cc.version | default('') }}</span>
+            {{ etude.cc.version | default('') }}</span>
     </div>
     <div class="collapse navbar-collapse navbar-cc">
         <ul class="nav navbar-nav">
@@ -120,36 +120,72 @@
 {% endif %}
 
 
-{% if etude.ceActive or etude.ce is not none %}
+{% if etude.ceActive %}
+{% set type = etude.ccaActive ? constant('\\App\\Entity\\Project\\Ce::TYPE_BDC') : constant('\\App\\Entity\\Project\\Ce::TYPE_CE') %}
+
     <nav class="navbar" role="navigation">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle text-black" data-toggle="collapse" data-target=".navbar-ce">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="fa fa-bars"></span>
             </button>
-            <span class="navbar-brand titre" data-toggle="collapse" data-target="#ce"><span
-                        class="fa fa-chevron-down"></span> {{ 'suivi.convention_etude'|trans({}, 'project') }}
-            - v{{ etude.cc.version | default('') }}</span>
+            <span class="navbar-brand titre" data-toggle="collapse" data-target="#ce">
+                <span class="fa fa-chevron-down"></span>
+                {% if etude.ccaActive %}
+                    {{ 'suivi.bon_de_commande'|trans({}, 'project') }}
+                {% else %}
+                    {{ 'suivi.convention_etude'|trans({}, 'project') }}
+                {% endif %}
+                {{ etude.ce.version | default('') }}
+            </span>
         </div>
-        <div class="collapse navbar-collapse navbar-cc">
+        <div class="collapse navbar-collapse navbar-ce">
             <ul class="nav navbar-nav">
-                <li><a href="{{ path('project_ce_rediger', {'id': etude.id}) }}"><span
-                                class="fa fa-pencil"></span> {{ 'suivi.rediger'|trans({}, 'project') }}</a></li>
-                {% if etude.ce.dateSignature |default('0') %}
-                    <li><a href="{{ path('publish_publiposter',
-                        { 'templateName' : constant('\\App\\Controller\\Publish\\TraitementController::DOCTYPE_DEVIS'),
+                <li>
+                    <a href="{{ path('project_ce_rediger', {'id': etude.id, 'type': type }) }}">
+                        <span class="fa fa-pencil"></span> {{ 'suivi.rediger'|trans({}, 'project') }}
+                    </a>
+                </li>
+                {# BDC #}
+                {% if etude.ccaActive %}
+                    <li>
+                        <a href="{{ path('publish_publiposter', {
+                            'templateName' : constant('\\App\\Controller\\Publish\\TraitementController::DOCTYPE_CONVENTION_CADRE_AGILE'),
                             'rootName' : constant('\\App\\Controller\\Publish\\TraitementController::ROOTNAME_ETUDE'),
                             'rootObject_id' : etude.id}) }}">
-                        <span class="fa fa-arrow-circle-down"></span> {{ 'suivi.generer_devis'|trans({}, 'project') }}
-                    </a></li>
-                    <li><a href="{{ path('publish_publiposter',
-                        { 'templateName' : constant('\\App\\Controller\\Publish\\TraitementController::DOCTYPE_CONVENTION_ETUDE'),
+                            <span class="fa fa-arrow-circle-down"></span> {{ 'suivi.generer_cca'|trans({}, 'project') }}
+                        </a>
+                    </li>
+                    {% if etude.ce.dateSignature | default('0') %}
+                        <li>
+                            <a href="{{ path('publish_publiposter', {
+                                'templateName' : constant('\\App\\Controller\\Publish\\TraitementController::DOCTYPE_BON_COMMANDE'),
+                                'rootName' : constant('\\App\\Controller\\Publish\\TraitementController::ROOTNAME_ETUDE'),
+                                'rootObject_id' : etude.id}) }}">
+                                <span class="fa fa-arrow-circle-down"></span> {{ 'suivi.generer_bdc'|trans({}, 'project') }}
+                            </a>
+                        </li>
+                    {% endif %}
+                {# Regular CE #}
+                {% else %}
+                    {% if etude.ce.dateSignature | default('0') %}
+                    <li>
+                        <a href="{{ path('publish_publiposter', {
+                            'templateName' : constant('\\App\\Controller\\Publish\\TraitementController::DOCTYPE_DEVIS'),
                             'rootName' : constant('\\App\\Controller\\Publish\\TraitementController::ROOTNAME_ETUDE'),
                             'rootObject_id' : etude.id}) }}">
-                        <span class="fa fa-arrow-circle-down"></span> {{ 'suivi.generer_ce'|trans({}, 'project') }}
-                    </a></li>
-                    </tr>
-                    <li></li>
+                            <span class="fa fa-arrow-circle-down"></span> {{ 'suivi.generer_devis'|trans({}, 'project') }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('publish_publiposter', {
+                            'templateName' : constant('\\App\\Controller\\Publish\\TraitementController::DOCTYPE_CONVENTION_ETUDE'),
+                            'rootName' : constant('\\App\\Controller\\Publish\\TraitementController::ROOTNAME_ETUDE'),
+                            'rootObject_id' : etude.id}) }}">
+                            <span class="fa fa-arrow-circle-down"></span> {{ 'suivi.generer_ce'|trans({}, 'project') }}
+                        </a>
+                    </li>
+                    {% endif %}
                 {% endif %}
             </ul>
         </div>
@@ -165,7 +201,7 @@
             </tr>
             <tr>
                 <td>{{ ( etude.ce and etude.ce.dateSignature ) ? etude.ce.dateSignature | date("d/m/Y") : "Non signé" }}</td>
-                <td>{{ etude.ce.signataire2.prenomnom | default('') }}</td>
+                <td>{{ etude.ce.signataire2.prenomNom | default('') }}</td>
                 <td>{{ etude.acompte | default(0) ? "Oui" : "Non" }}</td>
                 <td>{{ etude.pourcentageAcompte * 100 ~ "%" | default('') }}</td>
             </tr>
@@ -185,7 +221,7 @@
     <div class="collapse navbar-collapse navbar-rm">
         <ul class="nav navbar-nav">
             <li><a href="{{ path('project_missions_modifier', {'id': etude.id}) }}"><span
-                            class="fa fa-pencil"></span> {{ 'suivi.intervenants'|trans({}, 'project') }}</a></li>
+                            class="fa fa-pencil"></span> {{ 'suivi.rediger'|trans({}, 'project') }}</a></li>
         </ul>
     </div>
 </nav>
@@ -197,22 +233,14 @@
                     <tr>
                         <td colspan="2">
                             {% include "Project/Etude/Buttons/Intervenant.html.twig" with  {'mission' : mission, 'etude' : etude} %}
+                            &nbsp
+                            <a href="{{ path('publish_publiposter',
+                            { 'templateName' : constant('\\App\\Controller\\Publish\\TraitementController::DOCTYPE_RECAPITULATIF_MISSION'),
+                                'rootName' : constant('\\App\\Controller\\Publish\\TraitementController::ROOTNAME_MISSION'),
+                                'rootObject_id' : mission.id}) }}">
+                            <span class="fa fa-arrow-circle-down"></span> {{ 'suivi.rm'|trans({}, 'project') }}
+                            </a>
                         </td>
-                    </tr>
-                    <tr>
-                        <td><a href="{{ path('publish_publiposter',
-                                { 'templateName' : constant('\\App\\Controller\\Publish\\TraitementController::DOCTYPE_RECAPITULATIF_MISSION'),
-                                    'rootName' : constant('\\App\\Controller\\Publish\\TraitementController::ROOTNAME_MISSION'),
-                                    'rootObject_id' : mission.id}) }}">
-                                <span class="fa fa-arrow-circle-down"></span> {{ 'suivi.rm'|trans({}, 'project') }}
-                            </a></td>
-                        <td><a href="{{ path('publish_publiposter',
-                                { 'templateName' : constant('\\App\\Controller\\Publish\\TraitementController::DOCTYPE_DESCRIPTIF_MISSION'),
-                                    'rootName' : constant('\\App\\Controller\\Publish\\TraitementController::ROOTNAME_MISSION'),
-                                    'rootObject_id' : mission.id}) }}">
-                                <span class="fa fa-arrow-circle-down"></span> {{ 'suivi.dm'|trans({}, 'project') }}
-                            </a></td>
-                    </tr>
                     <tr>
                         <th>{{ 'suivi.rm_date'|trans({}, 'project') }}</th>
 
@@ -408,7 +436,7 @@
             <span class="fa fa-bars"></span>
         </button>
         <span class="navbar-brand titre" data-toggle="collapse" data-target="#avs"><span
-                    class="fa fa-chevron-down"></span> {{ 'suivi.avenants'|trans({}, 'project') }}</span>
+                    class="fa fa-chevron-down"></span>{{ 'suivi.avenants_projet'|trans({}, 'project') }}</span>
     </div>
     <div class="collapse navbar-collapse navbar-avs">
         <ul class="nav navbar-nav">

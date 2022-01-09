@@ -13,13 +13,20 @@ namespace App\Entity\Project;
 
 use App\Entity\Personne\Personne;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * BdC and Ce (named Ce for implementation reasons —almost same object, makes less duplicated code).
+ *
  * @ORM\Table()
  * @ORM\Entity
  */
 class Ce extends DocType
 {
+    const TYPE_CE = 0;
+
+    const TYPE_BDC = 1;
+
     /**
      * @var int
      *
@@ -59,10 +66,29 @@ class Ce extends DocType
      */
     private $deonto;
 
+    /**
+     * @Assert\NotNull()
+     * @Assert\GreaterThanOrEqual(0)
+     * @Assert\LessThanOrEqual(1)
+     *
+     * @ORM\Column(type="smallint")
+     */
+    private $type;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Cca::class, inversedBy="bdcs")
+     */
+    private $cca;
+
+    public function getTypeToString()
+    {
+        return $this->getType() ? 'BDC' : 'CE';
+    }
+
     public function getReference()
     {
         return $this->etude->getReference() . '/' . (null !== $this->getDateSignature() ? $this->getDateSignature()
-                ->format('Y') : '') . '/CE/' . $this->getVersion();
+            ->format('Y') : '') . '/' . $this->getTypeToString() . '/' . $this->getVersion();
     }
 
     /** auto-generated methods */
@@ -103,7 +129,7 @@ class Ce extends DocType
 
     public function __toString()
     {
-        return $this->etude->getReference() . '/CE/';
+        return $this->etude->getReference() . '/' . $this->getTypeToString() . '/';
     }
 
     /**
@@ -176,5 +202,41 @@ class Ce extends DocType
     public function getDeonto()
     {
         return $this->deonto;
+    }
+
+    /**
+     * Get type.
+     *
+     * @return int
+     */
+    public function getType(): ?int
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set type.
+     *
+     * @param int $type 0 => CE | 1 => BDC
+     *
+     * @return Facture
+     */
+    public function setType(int $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getCca(): ?Cca
+    {
+        return $this->cca;
+    }
+
+    public function setCca(?Cca $cca): self
+    {
+        $this->cca = $cca;
+
+        return $this;
     }
 }

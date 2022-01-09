@@ -13,7 +13,6 @@ namespace App\Form\Project;
 
 use App\Entity\Project\Av;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -35,7 +34,7 @@ class AvType extends DocTypeType
             ->add('objet', TextareaType::class, [
                 'label' => 'Exposer les causes de l’Avenant',
                 'required' => true,
-                'attr' => ['data-help' => 'Ne pas hésiter à détailler l\'historique des relations avec le client 
+                'attr' => ['data-help' => 'Ne pas hésiter à détailler l\'historique des relations avec le client
             et du travail sur l\'étude qui ont conduit à l\'Avenant',
                 ],
             ])
@@ -43,22 +42,7 @@ class AvType extends DocTypeType
                 'label' => 'Type d\'avenant',
                 'multiple' => true,
                 'choices' => Av::CLAUSES_CHOICES,
-            ])
-            ->add('phases', CollectionType::class, [
-                'entry_type' => PhaseType::class,
-                'entry_options' => ['isAvenant' => true],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'prototype' => true,
-                'by_reference' => false,
             ]);
-        /*->add('avenantsMissions', 'collection', array(
-            'type' => new AvMissionType,
-            'allow_add' => true,
-            'allow_delete' => true,
-            'prototype' => true,
-            'by_reference' => false,
-        ))*/
 
         DocTypeType::buildForm($builder, $options);
     }

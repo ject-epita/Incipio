@@ -28,13 +28,14 @@ class CeController extends AbstractController
 {
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
-     * @Route(name="project_ce_rediger", path="/suivi/ce/rediger/{id}", methods={"GET","HEAD","POST"})
+     * @Route(name="project_ce_rediger", path="/suivi/ce/rediger/{type}/{id}", methods={"GET","HEAD","POST"})
      *
      * @param Etude $etude etude which CE should belong to
+     * @param int   $type  integer representing the type of document to edit. 0 for CE, 1 for BDC. Using such trick because CE & BDC are different documents but implemented by same entity because of similarities.
      *
      * @return RedirectResponse|Response
      */
-    public function rediger(Request $request, Etude $etude, EtudePermissionChecker $permChecker, DocTypeManager $docTypeManager)
+    public function rediger(Request $request, Etude $etude, EtudePermissionChecker $permChecker, DocTypeManager $docTypeManager, int $type)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -44,6 +45,11 @@ class CeController extends AbstractController
 
         if (!$ce = $etude->getCe()) {
             $ce = new Ce();
+            $ce->setType($type);
+            if ($etude->getCcaActive()) {
+                $ce->setCca($etude->getCca());
+            }
+
             $etude->setCe($ce);
         }
 
@@ -54,7 +60,19 @@ class CeController extends AbstractController
 
             if ($form->isValid()) {
                 $docTypeManager->checkSaveNewEmploye($etude->getCe());
+
+                if ($etude->getCcaActive() && $etude->getCca()) {
+                    $etude->getCca()->addBdc($ce);
+                }
+
                 $em->flush();
+
+                $message = Ce::TYPE_BDC === $type ? 'BDC modifié' : 'CE modifiée';
+                $this->addFlash('success', $message);
+
+                if ($request->get('phases')) {
+                    return $this->redirectToRoute('project_phases_modifier', ['id' => $etude->getId()]);
+                }
 
                 return $this->redirectToRoute('project_etude_voir', ['nom' => $etude->getNom(), '_fragment' => 'tab3']);
             }
@@ -62,6 +80,7 @@ class CeController extends AbstractController
 
         return $this->render('Project/Ce/rediger.html.twig', [
             'form' => $form->createView(),
+            'ce' => $ce,
             'etude' => $etude,
         ]);
     }
