@@ -34,3 +34,7 @@ services:
     mailer:
         build: ./docker/mail
         restart: "no"
+
+networks:
+    default:
+        erp:
