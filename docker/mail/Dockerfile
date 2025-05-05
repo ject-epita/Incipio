@@ -5,8 +5,8 @@ MAINTAINER Jeyser-CRM <dsi@n7consulting.fr>
 # non-interactive mode
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN echo mail > /etc/hostname \
-    && chown root:root /etc/hosts
+#RUN echo mail > /etc/hostname \
+#    && chown root:root /etc/hosts
 
 # Install Postfix. Use syslog-ng to get Postfix logs
 RUN echo "postfix postfix/main_mailer_type string Internet site" > preseed.txt \
