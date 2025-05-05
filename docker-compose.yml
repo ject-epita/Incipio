@@ -19,6 +19,8 @@ services:
             # Uncomment following line when in dev
             # - .:/app
         restart: "no"
+        networks:
+            - db
 
     database:
         image: mysql:5
@@ -34,7 +36,8 @@ services:
     mailer:
         build: ./docker/mail
         restart: "no"
+        networks:
+            - db
 
 networks:
-    default:
-        erp:
+    db:
